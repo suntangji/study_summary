@@ -40,3 +40,61 @@
         - 不能传递复杂数据，主要用来同步
     6) socket
         - 可以跨主机通信
+
+5. 多线程怎么实现同步与互斥
+    1) 互斥锁
+    2) 条件变量
+    3) 信号量
+
+6. 多线程间共享的数据和私有的数据
+    1) 共享
+        - 同一虚拟地址空间
+        - 文件描述符表
+        - 信号的处理方式
+        - 当前工作目录
+        - 用户 id 和组 id
+    2) 私有
+        - 线程 id
+        - 寄存器
+        - 栈
+        - errno
+        - 信号屏蔽字
+        - 线程优先级
+
+7. 测试大小端
+    大端模式，是指数据的高字节保存在内存的低地址中。小端模式，是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中。
+    1) 方法一
+        ``` c
+        int main(int argc, char *argv[]) {
+            int i = 0x12345678;
+            char *c = (char *)&i;
+            printf("%x \n", *c);
+            return 0;
+        }
+
+        ```
+    2) 方法二
+        ``` c
+        typedef union {
+            int i;
+            char c;
+        } Node;
+ 
+        int main(int argc, char *argv[]) {
+            Node node;
+            node.i = 0x12345678;
+            printf("%x\n", node.c);
+            return 0;
+        }
+        ``` 
+        
+8. Linux 开机过程
+    1) 开机 BIOS 自检，加载硬盘
+    2) 读取 MBR， 进行 MBR 引导
+    3) grub 引导菜单(Boot Loader)
+    4) 加载内核 kernel
+    5) 启动 init 进程，设定运行级别
+    6) 执行 rc.sysinit
+    7) 启动内核模块，执行不同级别的脚本文件
+    8) 执行 /ect/rc.d/rc.local
+    9) 进入系统登录界面
